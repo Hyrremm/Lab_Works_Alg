@@ -23,7 +23,7 @@ public static class AlgorithmsSpace
     {
         int low = 0;
         int high = arr.Length - 1;
-        Func<T, T, int> comparer = reversed ? (a, b) => b.CompareTo(a) : (a, b) => a.CompareTo(b);
+        Func<T, T, int> comparer =  (a, b) => a.CompareTo(b);
 
         while (low <= high)
         {
@@ -49,26 +49,32 @@ public static class AlgorithmsSpace
     {
         // init
         int n = arr.Length;
-        int step = (int)Math.Sqrt(n);
+        int step = (int)(Math.Sqrt(n) * (reversed ? -1 : 1));
+        int startIndex = reversed ? n - 1 : 0;
+        int endIndex = reversed ? -1 : n;
 
         // search
-        int prev = 0;
-        int jumpIndex = step;
-        Func<T, T, int> comparer = reversed ? (a, b) => b.CompareTo(a) : (a, b) => a.CompareTo(b);
+        int prev = startIndex;
+        int jumpIndex = startIndex + step;
+        Func<T, T, int> comparer = (a, b) => a.CompareTo(b);
 
-        while (comparer(arr[Math.Min(jumpIndex, n) - 1], x) == -1)
+        while (true)
         {
+            if (comparer(arr[Math.Max(Math.Min(jumpIndex, n - 1), 0)], x) != (reversed ? 1 : -1))
+            {
+                break;
+
+            }
+
             prev = jumpIndex;
             jumpIndex += step;
-            if (prev >= n) return -1;
+            if (prev == endIndex) return -1;
         }
 
-        for (int i = prev; i < jumpIndex; i++)
+        for (int i = prev; i != endIndex; i += step)
         {
             if (comparer(arr[i], x) == 0) return i;
         }
         return -1;
     }
-
-
 }

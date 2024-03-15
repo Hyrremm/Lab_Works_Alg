@@ -17,7 +17,8 @@ internal class Program
         // Read from file
         Console.WriteLine("Press any key read from the file.");
         PressKeyToContinue();
-        List<LabData> readLabDatas = ReadFromCsv(filePath);
+        (List<LabData> readLabDatas, bool success)  = ReadFromCsv(filePath);
+        if(!success) Console.WriteLine("The attempt to read data lead to errors");
         Console.WriteLine("Data read from CSV:");
         foreach (var data in readLabDatas)
         {
@@ -26,12 +27,14 @@ internal class Program
         // Modify
         Console.WriteLine($"Press any key to modify the file.");
         PressKeyToContinue();   
-        readLabDatas = ReadFromCsv(filePath);
+        (readLabDatas,  success)  = ReadFromCsv(filePath);
+        if(!success) Console.WriteLine("The attempt to read data lead to errors");      
         readLabDatas[1] = readLabDatas[1] with { Text = "NEW COOL TEXT" };
         readLabDatas.Add(new LabData{ Text = "Sample4", Value = 45454, GenderValue = LabData.Gender.Male });
         WriteToCsv(filePath,readLabDatas);
         // Read again
-        readLabDatas = ReadFromCsv(filePath);
+        (readLabDatas,  success)  = ReadFromCsv(filePath);
+        if(!success) Console.WriteLine("The attempt to read data lead to errors");      
         Console.WriteLine("Data read from CSV:");
         foreach (var data in readLabDatas)
         {
@@ -55,21 +58,26 @@ internal class Program
         }
     }
 
-    static List<LabData> ReadFromCsv(string filePath)
+    static (List<LabData> list,bool success) ReadFromCsv(string filePath)
     {
         List<LabData> labDatas = new List<LabData>();
+        bool successToReturn = true;
 
         using (StreamReader reader = new StreamReader(filePath))
         {
             while (!reader.EndOfStream)
             {
-                string line = reader.ReadLine();
-                (LabData result, bool success) = LabData.FromCsv(line);
+                string line = reader.ReadLine()!;
+                var (result, success) = LabData.FromCsv(line);
                 if(success) labDatas.Add(result);
-                else Console.WriteLine($"Reading from CSV line \"{line}\" wasn't successful.");
+                else
+                {
+                    successToReturn = false;
+                    Console.WriteLine($"Reading from CSV line \"{line}\" wasn't successful.");
+                }
             }
         }
 
-        return labDatas;
+        return (labDatas,successToReturn);
     }
 }
