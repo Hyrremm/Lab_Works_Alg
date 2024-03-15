@@ -24,7 +24,7 @@ struct LabData
         }
     }
 
-    public int Value { get; init; }
+    public int Value { get; init; } 
     public Gender GenderValue { get; init; }
 
     public string TextToCsv() => Text;
@@ -76,7 +76,7 @@ struct LabData
         };
     }
     
-    public static (LabData,bool) FromCsv(string csvLine)
+    public static (LabData value, bool success) FromCsv(string csvLine)
     {
         string[] values = csvLine.Split(',');
         LabData result = new LabData();
