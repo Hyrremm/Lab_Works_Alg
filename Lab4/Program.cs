@@ -10,8 +10,7 @@
         node1.Connect(node2, true);
         node2.Connect(node3, true);
         node3.Connect(node4, true);
-        node4.Connect(node2, false);
-        node4.Connect(node1, true);
+        node1.Connect(node4, true);
         List<GraphNode> nodes = [node1, node2, node3, node4];
         List<bool> visitedDFS = Enumerable.Repeat(false, nodes.Count).ToList();
         List<bool> visitedBFS = Enumerable.Repeat(false, nodes.Count).ToList();

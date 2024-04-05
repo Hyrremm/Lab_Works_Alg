@@ -42,42 +42,9 @@ Console.WriteLine($"Is Stack empty? {stack.IsEmpty()}");
 Console.WriteLine($"Last element in Stack: {stack.GetLastElement()}"); 
 
 stack.Pop();
-Console.WriteLine($"Last element in Stack after Pop: {stack.GetLastElement()}"); 
+Console.WriteLine($"Last element in Stack after Pop: {stack.GetLastElement()}");
 
 
-
-class Queue<T>
-{
-    private LinkedList<T> items = new LinkedList<T>();
-
-    public bool IsEmpty()
-    {
-        return items.Count == 0;
-    }
-
-    public void Enqueue(T value)
-    {
-        items.AddLast(value);
-    }
-
-    public T Front()
-    {
-        if (IsEmpty())
-        {
-            throw new InvalidOperationException("Queue is empty.");
-        }
-        return items.First.Value;
-    }
-
-    public void Dequeue()
-    {
-        if (IsEmpty())
-        {
-            throw new InvalidOperationException("Queue is empty.");
-        }
-        items.RemoveFirst();
-    }
-}
 class DynamicArrayQueue<T>
 {
     private List<T> items = new();

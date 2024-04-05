@@ -7,7 +7,7 @@ class Program
     {
         CheckSingleLinkedList();
         CheckDoubleLinkedList();
-        CheckQueue();
+        // CheckQueue();
     }
 
     public static void CheckSingleLinkedList()
@@ -44,17 +44,27 @@ class Program
         Console.WriteLine("Check Double Linked List");
         DoublyLinkedList<int> listDouble = new();
         listDouble.InsertBefore(null,43);
-        listDouble.InsertBefore(listDouble.First,45);
-        listDouble.InsertBefore(listDouble.First,46);
+        listDouble.InsertBefore(listDouble.First,41);
+        DoublyLinkedList<int>.Node node = listDouble.InsertBefore(listDouble.First,46);
         listDouble.InsertBefore(listDouble.First,47);
         listDouble.InsertBefore(listDouble.First,49);
+        listDouble.InsertAfter(node, 1000);
+        listDouble.InsertBefore(node, -1000);
+
         //Removing Elements
         Console.WriteLine("Printing all elements");
         listDouble.PrintAll();
-        listDouble.Remove(listDouble.Find(46).Item2);
+        listDouble.Remove(listDouble.Find(47).Item2);
         listDouble.Remove(listDouble.Find(49).Item2);
         Console.WriteLine("After removing 2 elements");
         listDouble.PrintAll();
+        if (listDouble.AssertNoCycles()) Console.WriteLine("There are no cycles");
+        else Console.WriteLine("There are cycles");
+
+        node.Next = node.Previous;
+        Console.WriteLine("Making the next element of element 46 be its previous element");
+        if(listDouble.AssertNoCycles()) Console.WriteLine("There are no cycles");
+        else Console.WriteLine("There are cycles");
     }
 
     public static void CheckQueue()
