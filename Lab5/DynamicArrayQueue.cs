@@ -1,6 +1,6 @@
-﻿class Queue<T>
+﻿class DynamicArrayQueue<T>
 {
-    private LinkedList<T> items = new LinkedList<T>();
+    private List<T> items = new();
 
     public bool IsEmpty()
     {
@@ -9,7 +9,7 @@
 
     public void Enqueue(T value)
     {
-        items.AddFirst(value);
+        items.Add(value);
     }
 
     public T Front()
@@ -18,8 +18,7 @@
         {
             throw new InvalidOperationException("Queue is empty.");
         }
-
-        return items.First!.Value;
+        return items.Last();
     }
 
     public void Dequeue()
@@ -28,6 +27,6 @@
         {
             throw new InvalidOperationException("Queue is empty.");
         }
-        items.RemoveFirst();
+        items.RemoveAt(items.Count-1);
     }
 }
