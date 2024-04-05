@@ -8,9 +8,6 @@ class Program
         CheckSingleLinkedList();
         CheckDoubleLinkedList();
         CheckQueue();
-      
-        
-
     }
 
     public static void CheckSingleLinkedList()
